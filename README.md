@@ -67,7 +67,7 @@ Example `config.json`:
         "OMNI": null
     }
 }
-
+```
 ## Usage
 
 1. Place the `SBCTC.InventoryUpdater.ps1` script and `config.json` file in the same directory.
