@@ -31,7 +31,6 @@ This PowerShell script updates SharePoint list items based on inventory data fro
     - Unzip the downloaded file.
     - Move `SBCTC.InventoryUpdater.ps1` and `config.json` to the desired location.
 
-
 ## Configuration
 
 Ensure the `config.json` file is in the same directory as the script. The configuration file should map the CSV columns to the corresponding SharePoint fields.
