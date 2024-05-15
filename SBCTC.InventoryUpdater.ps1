@@ -104,14 +104,29 @@ $logFilePath = Join-Path -Path $scriptDirectory -ChildPath 'SBCTC.InventoryUpdat
 
 $configData = Get-Content -Path $configPath | ConvertFrom-Json
 
-# Set the global log level variable from the config file, default to "INFO" if not found
-if ($null -ne $config.Logging -and $null -ne $config.Logging.logLevel) {
-    $global:logLevel = $configData.Logging.logLevel
-} else {
-    $global:logLevel = "INFO"
+# Check if the log file exists, if not, create it
+if (-Not (Test-Path $logFilePath)) {
+    New-Item -Path $logFilePath -ItemType File | Out-Null
 }
 
+# Clear the log file at the start
+Clear-Content -Path $logFilePath
+
+# Log script metadata
+Write-ScriptInfo
+
 Write-LogMessage "Configuration loaded successfully." "INFO"
+
+
+# Set the global log level variable from the config file, default to "INFO" if not found
+if ($null -ne $configData.Logging -and $null -ne $configData.Logging.logLevel) {
+    $global:logLevel = $configData.Logging.logLevel
+    Write-LogMessage "Log level set to '$global:logLevel'." "INFO"
+} else {
+    $global:logLevel = "INFO"
+    Write-LogMessage "Log level not found in configuration. Defaulting to 'INFO'." "WARNING"
+}
+
 Write-LogMessage "Configuration Data: $($configData | ConvertTo-Json -Depth 10)" "DEBUG"
 
 # Verify FieldMappings
@@ -130,17 +145,6 @@ Write-LogMessage "FieldMappings Keys: $($fieldMappingsKeys -join ', ')" "DEBUG"
 foreach ($key in $fieldMappingsKeys) {
     Write-LogMessage "Key: $key, Value: $($configData.FieldMappings.$key)" "DEBUG"
 }
-
-# Check if the log file exists, if not, create it
-if (-Not (Test-Path $logFilePath)) {
-    New-Item -Path $logFilePath -ItemType File | Out-Null
-}
-
-# Clear the log file at the start
-Clear-Content -Path $logFilePath
-
-# Log script metadata
-Write-ScriptInfo
 
 # Main script
 try {
@@ -283,11 +287,11 @@ try {
                         Write-LogMessage "Item is null, skipping this item." "ERROR"
                         continue
                     }
-
+                
                     Write-LogMessage "Processing item with Asset tag # '$indexValue' and Serial Number '$csvSN'" "DEBUG"
                     Write-LogMessage "Item ID: $($item.Id)" "DEBUG"
                     Write-LogMessage "Item GUID: $($item.FieldValues.UniqueId)" "DEBUG"
-
+                
                     # Check for changes
                     foreach ($key in $csvMap.Keys) {
                         $csvValue = $csvMap[$key]
@@ -295,44 +299,47 @@ try {
                             Write-LogMessage "CSV Value for key '$key' is null, skipping this key." "DEBUG"
                             continue
                         }
-                        
+                
                         if (-not $item.PSObject.Properties.Match($key)) {
                             Write-LogMessage "Item does not contain key '$key', skipping this key." "DEBUG"
                             continue
                         }
-
+                
                         $spValue = $item[$key]
                         if ($null -eq $spValue) {
                             Write-LogMessage "SharePoint Value for key '$key' is null." "DEBUG"
                         }
-
-                        Write-LogMessage "CSV Value Type: $($csvValue.GetType().Name), SharePoint Value Type: $($spValue.GetType().Name)" "DEBUG"
-
-                        # Convert CSV value to double if SharePoint value is double
-                        if ($spValue.GetType().Name -eq "Double" -and $csvValue.GetType().Name -eq "String") {
-                            $csvValue = [double]$csvValue
-                        }
-
-                        # Convert CSV value to DateTime if SharePoint value is DateTime
-                        if ($spValue.GetType().Name -eq "DateTime" -and $csvValue.GetType().Name -eq "String") {
-                            try {
-                                $csvValue = [DateTime]::Parse($csvValue)
-                            } catch {
-                                Write-LogMessage "Failed to parse CSV date value '$csvValue' for key '$key'" "ERROR"
-                                continue
+                
+                        # Ensure both values are not null before comparing or calling methods
+                        if ($null -ne $spValue -and $null -ne $csvValue) {
+                            Write-LogMessage "CSV Value Type: $($csvValue.GetType().Name), SharePoint Value Type: $($spValue.GetType().Name)" "DEBUG"
+                
+                            # Convert CSV value to double if SharePoint value is double
+                            if ($spValue.GetType().Name -eq "Double" -and $csvValue.GetType().Name -eq "String") {
+                                $csvValue = [double]$csvValue
+                            }
+                
+                            # Convert CSV value to DateTime if SharePoint value is DateTime
+                            if ($spValue.GetType().Name -eq "DateTime" -and $csvValue.GetType().Name -eq "String") {
+                                try {
+                                    $csvValue = [DateTime]::Parse($csvValue)
+                                } catch {
+                                    Write-LogMessage "Failed to parse CSV date value '$csvValue' for key '$key'" "ERROR"
+                                    continue
+                                }
+                            }
+                
+                            if ($csvValue -ne $spValue) {
+                                Write-LogMessage "Difference found in field '$key': CSV Value = '$csvValue', SharePoint Value = '$spValue'" "DEBUG"
+                                $fieldsChanged = $true
+                                break
                             }
                         }
-
-                        if ($csvValue -ne $spValue) {
-                            Write-LogMessage "Difference found in field '$key': CSV Value = '$csvValue', SharePoint Value = '$spValue'" "DEBUG"
-                            $fieldsChanged = $true
-                            break
-                        }
                     }
-
+                
                     if ($fieldsChanged) {
                         # Check if DOCID has changed
-                        if ($item["DOCID_x0028_currentowner_x0029_"] -ne $csvMap["DOCID_x0028_currentowner_x0029_"]) {
+                        if ($null -ne $item["DOCID_x0028_currentowner_x0029_"] -and $item["DOCID_x0028_currentowner_x0029_"] -ne $csvMap["DOCID_x0028_currentowner_x0029_"]) {
                             $csvMap["OMNI"] = $false
                         }
                         $updateResult = Set-PnPListItem -List $configData.SharePoint.listName -Identity $item.Id -Values $csvMap -ErrorAction Stop
@@ -347,7 +354,7 @@ try {
                     } else {
                         Write-LogMessage "No changes detected for item with Asset tag # '$indexValue' and Serial Number '$csvSN'" "INFO"
                     }
-                }
+                }                
             }
         } catch {
             Write-LogMessage "Error processing row with Asset tag # '$indexValue' and Serial Number '$csvSN'. Error: $_" "ERROR"
