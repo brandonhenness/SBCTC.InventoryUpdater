@@ -29,11 +29,11 @@ This PowerShell script is designed for the State Board for Community and Technic
     - Click on the **Code** button.
     - Select **Download ZIP**.
     - Unzip the downloaded file.
-    - Move `SBCTC.InventoryUpdater.ps1` and `config.json` to the desired location.
+    - Move `SBCTC.InventoryUpdater.ps1` to the desired location.
 
 ## Configuration
 
-Ensure the `config.json` file is in the same directory as the script. The configuration file should map the CSV columns to the corresponding SharePoint fields.
+The first time the script is run, it will automatically generate a config.json file in the same directory as the script. You can modify this configuration file to suit your needs.
 
 Example `config.json`:
 ```json
@@ -75,10 +75,14 @@ Example `config.json`:
 
 ## Usage
 
-1. Place the `SBCTC.InventoryUpdater.ps1` script and `config.json` file in the same directory.
-2. You have two options to run the script:
+1. Place the `SBCTC.InventoryUpdater.ps1` script in the desired directory.
+2. Run the script. If the `config.json` file does not exist, it will be created automatically.
+3. Modify the `config.json` file as needed after it is created.
+4. Run the script again to update SharePoint list items based on the CSV file.
 
-### Option 1: Using PowerShell 7
+### Running the Script
+
+#### Option 1: Using PowerShell 7
 
 1. Open PowerShell 7 and navigate to the script directory.
 2. Run the script:
@@ -87,7 +91,7 @@ Example `config.json`:
     ```
 3. A file dialog will prompt you to select the CSV file containing the inventory data.
 
-### Option 2: Using the Right-Click Menu
+#### Option 2: Using the Right-Click Menu
 
 If you have the right-click menu option installed for PowerShell 7:
 
@@ -97,7 +101,7 @@ If you have the right-click menu option installed for PowerShell 7:
 
 ## Logging
 
-The script logs its execution details to `SBCTC.InventoryUpdater.log` in the same directory as the script. The log level can be adjusted by changing the `$global:logLevel` variable.
+The script logs its execution details to `SBCTC.InventoryUpdater.log` in the same directory as the script. The log level can be adjusted by changing the `logLevel` setting in the `config.json` file.
 
 - Set to `DEBUG` for detailed logging.
 - Set to `INFO` for general logging.
@@ -116,7 +120,7 @@ Email: [brandon.henness@doc1.wa.gov](mailto:brandon.henness@doc1.wa.gov)
 
 ## Version
 
-2024051400
+v2024051500
 
 ## Notes
 
