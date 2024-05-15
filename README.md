@@ -80,17 +80,24 @@ Example `config.json`:
 ## Usage
 
 1. Place the `SBCTC.InventoryUpdater.ps1` script and `config.json` file in the same directory.
-2. Open PowerShell and navigate to the script directory.
-3. Run the script:
+2. You have two options to run the script:
+
+### Option 1: Using PowerShell
+
+1. Open PowerShell and navigate to the script directory.
+2. Run the script:
     ```powershell
     ./SBCTC.InventoryUpdater.ps1
     ```
-4. A file dialog will prompt you to select the CSV file containing the inventory data.
+3. A file dialog will prompt you to select the CSV file containing the inventory data.
 
--or-
+### Option 2: Using the Right-Click Menu
 
-If you have the right-click menu option installed for PowerShell 7, you can simply right-click the `SBCTC.InventoryUpdater.ps1` script and select **Run with PowerShell 7**. This will execute the script and prompt you to select the CSV file containing the inventory data.
+If you have the right-click menu option installed for PowerShell 7:
 
+1. Right-click the `SBCTC.InventoryUpdater.ps1` script.
+2. Select **Run with PowerShell 7**.
+3. A file dialog will prompt you to select the CSV file containing the inventory data.
 
 ## Logging
 
