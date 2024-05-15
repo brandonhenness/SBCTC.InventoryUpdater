@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-    Script to update SharePoint list items.
+    SBCTC Inventory Updater script for updating SharePoint list items based on CSV data.
 
 .DESCRIPTION
-    This script updates SharePoint list items based on CSV data.
-    It maps CSV columns to SharePoint fields and updates existing items
-    or creates new ones if they don't exist.
+    This script reads a CSV file containing inventory data and updates corresponding items in a SharePoint list.
+    The script uses a configuration file (config.json) to map CSV columns to SharePoint fields.
+    It also handles date conversion and updates only the fields that have changed.
 
 .AUTHOR
     Brandon Henness
