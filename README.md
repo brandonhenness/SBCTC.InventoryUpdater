@@ -39,8 +39,8 @@ Example `config.json`:
 ```json
 {
     "SharePoint": {
-        "siteURL": "https://yoursharepointsite",
-        "listName": "YourListName"
+      "siteURL": "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT",
+      "listName": "Corrections Education Student Laptop Inventory"
     },
     "Permissions": [
         { "site": "SCCC", "email": "user1@example.com" },
