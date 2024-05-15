@@ -17,7 +17,9 @@ This PowerShell script updates SharePoint list items based on inventory data fro
 
 ## Installation
 
-1. Install PowerShell 7.2 or later: [PowerShell Installation Guide](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+1. Install PowerShell 7.2 or later:
+    - Follow the [PowerShell Installation Guide](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell).
+    - During installation, make sure to check the box that adds the PowerShell 7 right-click menu option.
 2. Install the PnP.PowerShell module:
     ```powershell
     Install-Module -Name PnP.PowerShell -Scope CurrentUser
@@ -28,6 +30,7 @@ This PowerShell script updates SharePoint list items based on inventory data fro
     - Select **Download ZIP**.
     - Unzip the downloaded file.
     - Move `SBCTC.InventoryUpdater.ps1` and `config.json` to the desired location.
+
 
 ## Configuration
 
