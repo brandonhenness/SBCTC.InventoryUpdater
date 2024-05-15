@@ -4,11 +4,11 @@
       "listName": "Corrections Education Student Laptop Inventory"
     },
     "Permissions": [
-        { "site": "SCCC", "email": "brandon.henness@doc1.wa.gov" },
-        { "site": "SCCC", "email": "pmboerner@doc1.wa.gov" },
-        { "site": "SCCC", "email": "katherine.powell@doc1.wa.gov" },
-        { "site": "SCCC", "email": "evi.buell@doc1.wa.gov" },
-        { "site": "SCCC", "email": "jlpeterson@doc1.wa.gov" }
+        { "site": "SCCC", "email": "user1@example.com" },
+        { "site": "SCCC", "email": "user2@example.com" },
+        { "site": "SCCC", "email": "user3@example.com" },
+        { "site": "SCCC", "email": "user4@example.com" },
+        { "site": "SCCC", "email": "user5@example.com" }
     ],
     "FieldMappings": {
       "Title": "asset_id",
