@@ -22,6 +22,12 @@ This PowerShell script updates SharePoint list items based on inventory data fro
     ```powershell
     Install-Module -Name PnP.PowerShell -Scope CurrentUser
     ```
+3. Download the script from GitHub:
+    - Navigate to the GitHub repository.
+    - Click on the **Code** button.
+    - Select **Download ZIP**.
+    - Unzip the downloaded file.
+    - Move `SBCTC.InventoryUpdater.ps1` and `config.json` to the desired location.
 
 ## Configuration
 
