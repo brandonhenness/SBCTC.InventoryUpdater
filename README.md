@@ -48,6 +48,7 @@ This PowerShell script is designed for the State Board for Community and Technic
     ./SBCTC.InventoryUpdater.ps1
     ```
 3. A file dialog will prompt you to select the CSV file containing the inventory data.
+4. After selecting the CSV file, you will be asked to authenticate to the SharePoint server. Use the email associated with your account on the SBCTC SharePoint server.
 
 #### Option 2: Using the Right-Click Menu
 
@@ -56,6 +57,7 @@ If you have the right-click menu option installed for PowerShell 7:
 1. Right-click the `SBCTC.InventoryUpdater.ps1` script.
 2. Select **Run with PowerShell 7**.
 3. A file dialog will prompt you to select the CSV file containing the inventory data.
+4. After selecting the CSV file, you will be asked to authenticate to the SharePoint server. Use the email associated with your account on the SBCTC SharePoint server.
 
 ## Configuration
 
