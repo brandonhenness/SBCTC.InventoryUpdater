@@ -85,6 +85,11 @@ Example `config.json`:
     ```
 4. A file dialog will prompt you to select the CSV file containing the inventory data.
 
+or
+
+If you have the right-click menu option installed for PowerShell 7, you can simply right-click the `SBCTC.InventoryUpdater.ps1` script and select **Run with PowerShell 7**. This will execute the script and prompt you to select the CSV file containing the inventory data.
+
+
 ## Logging
 
 The script logs its execution details to `SBCTC.InventoryUpdater.log` in the same directory as the script. The log level can be adjusted by changing the `$global:logLevel` variable.
