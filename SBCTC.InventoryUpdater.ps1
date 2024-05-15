@@ -31,6 +31,8 @@
     Copyright (c) 2024 Brandon Henness
 #>
 
+# Set a default log level
+$global:logLevel = "INFO"
 function Write-LogMessage {
     param (
         [string]$message,
@@ -102,13 +104,6 @@ function New-DefaultConfig {
             siteURL = "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT"
             listName = "Corrections Education Student Laptop Inventory"
         }
-        Permissions = @(
-            @{ site = "SCCC"; email = "user1@example.com" }
-            @{ site = "SCCC"; email = "user2@example.com" }
-            @{ site = "SCCC"; email = "user3@example.com" }
-            @{ site = "SCCC"; email = "user4@example.com" }
-            @{ site = "SCCC"; email = "user5@example.com" }
-        )
         FieldMappings = @{
             Title = "asset_id"
             AssetType = "asset_type"
@@ -149,14 +144,6 @@ $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Path
 $configPath = Join-Path -Path $scriptDirectory -ChildPath 'config.json'
 $logFilePath = Join-Path -Path $scriptDirectory -ChildPath 'SBCTC.InventoryUpdater.log'
 
-# Check if the config file exists, if not, create and populate a default one
-if (-Not (Test-Path $configPath)) {
-    Write-LogMessage "Configuration file not found. Creating a default configuration file." "WARNING"
-    New-DefaultConfig
-}
-
-$configData = Get-Content -Path $configPath | ConvertFrom-Json
-
 # Check if the log file exists, if not, create it
 if (-Not (Test-Path $logFilePath)) {
     New-Item -Path $logFilePath -ItemType File | Out-Null
@@ -165,10 +152,17 @@ if (-Not (Test-Path $logFilePath)) {
 # Clear the log file at the start
 Clear-Content -Path $logFilePath
 
+# Check if the config file exists, if not, create and populate a default one
+if (-Not (Test-Path $configPath)) {
+    Write-Host "Configuration file not found. Creating a default configuration file."
+    New-DefaultConfig
+}
+
+# Load the configuration file
+$configData = Get-Content -Path $configPath | ConvertFrom-Json
+
 # Log script metadata
 Write-ScriptInfo
-
-Write-LogMessage "Configuration loaded successfully." "INFO"
 
 # Set the global log level variable from the config file, default to "INFO" if not found
 if ($null -ne $configData.Logging -and $null -ne $configData.Logging.logLevel) {
@@ -179,6 +173,7 @@ if ($null -ne $configData.Logging -and $null -ne $configData.Logging.logLevel) {
     Write-LogMessage "Log level not found in configuration. Defaulting to 'INFO'." "WARNING"
 }
 
+Write-LogMessage "Configuration loaded successfully." "INFO"
 Write-LogMessage "Configuration Data: $($configData | ConvertTo-Json -Depth 10)" "DEBUG"
 
 # Verify FieldMappings

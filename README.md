@@ -42,13 +42,6 @@ Example `config.json`:
       "siteURL": "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT",
       "listName": "Corrections Education Student Laptop Inventory"
     },
-    "Permissions": [
-        { "site": "SCCC", "email": "user1@example.com" },
-        { "site": "SCCC", "email": "user2@example.com" },
-        { "site": "SCCC", "email": "user3@example.com" },
-        { "site": "SCCC", "email": "user4@example.com" },
-        { "site": "SCCC", "email": "user5@example.com" }
-    ],
     "FieldMappings": {
         "Title": "asset_id",
         "AssetType": "asset_type",
@@ -73,6 +66,9 @@ Example `config.json`:
         "Program": null,
         "ConditionNotes": null,
         "OMNI": null
+    },
+    "Logging": {
+        "logLevel": "INFO"
     }
 }
 ```
