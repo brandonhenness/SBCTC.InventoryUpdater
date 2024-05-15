@@ -85,7 +85,6 @@ Example `config.json`:
     ```
 4. A file dialog will prompt you to select the CSV file containing the inventory data.
 
-
 ## Logging
 
 The script logs its execution details to `SBCTC.InventoryUpdater.log` in the same directory as the script. The log level can be adjusted by changing the `$global:logLevel` variable.
