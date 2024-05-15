@@ -31,7 +31,7 @@ This PowerShell script updates SharePoint list items based on inventory data fro
 
 ## Configuration
 
-Create a `config.json` file in the same directory as the script. The configuration file should map the CSV columns to the corresponding SharePoint fields.
+Ensure the `config.json` file is in the same directory as the script. The configuration file should map the CSV columns to the corresponding SharePoint fields.
 
 Example `config.json`:
 ```json
@@ -74,6 +74,7 @@ Example `config.json`:
     }
 }
 ```
+
 ## Usage
 
 1. Place the `SBCTC.InventoryUpdater.ps1` script and `config.json` file in the same directory.
@@ -83,6 +84,7 @@ Example `config.json`:
     ./SBCTC.InventoryUpdater.ps1
     ```
 4. A file dialog will prompt you to select the CSV file containing the inventory data.
+
 
 ## Logging
 
