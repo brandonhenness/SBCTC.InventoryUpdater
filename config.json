@@ -1,39 +1,42 @@
 {
-    "SharePoint": {
-      "siteURL": "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT",
-      "listName": "Corrections Education Student Laptop Inventory"
-    },
-    "Permissions": [
-        { "site": "SCCC", "email": "user1@example.com" },
-        { "site": "SCCC", "email": "user2@example.com" },
-        { "site": "SCCC", "email": "user3@example.com" },
-        { "site": "SCCC", "email": "user4@example.com" },
-        { "site": "SCCC", "email": "user5@example.com" }
-    ],
-    "FieldMappings": {
-      "Title": "asset_id",
-      "AssetType": "asset_type",
-      "Manufacturer": "manufacturer",
-      "Model": "model",
-      "SerialNumber": "serial_number",
-      "Status": "status",
-      "DOCID_x0028_currentowner_x0029_": "doc_number",
-      "LastName_x0028_currentowner_x002": "last_name",
-      "FirstName_x0028_currentowner_x00": "first_name",
-      "DueDate": "transaction_timestamp",
-      "AgreementForm": "agreement_signed",
-      "OriginatingSite": "origin_site",
-      "CurrentSite": "current_site",
-      "PurchasePrice": "asset_cost",
-      "Color": "color",
-      "Housing": "housing_cell",
-      "Unit": "housing_unit",
-      "IncidentInvolvement": null,
-      "PurchaseDate": null,
-      "OrderNumber": null,
-      "Program": null,
-      "ConditionNotes": null,
-      "OMNI": null
-    }
+  "SharePoint": {
+    "siteURL": "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT",
+    "listName": "Corrections Education Student Laptop Inventory"
+  },
+  "Permissions": [
+      { "site": "SCCC", "email": "user1@example.com" },
+      { "site": "SCCC", "email": "user2@example.com" },
+      { "site": "SCCC", "email": "user3@example.com" },
+      { "site": "SCCC", "email": "user4@example.com" },
+      { "site": "SCCC", "email": "user5@example.com" }
+  ],
+  "FieldMappings": {
+    "Title": "asset_id",
+    "AssetType": "asset_type",
+    "Manufacturer": "manufacturer",
+    "Model": "model",
+    "SerialNumber": "serial_number",
+    "Status": "status",
+    "DOCID_x0028_currentowner_x0029_": "doc_number",
+    "LastName_x0028_currentowner_x002": "last_name",
+    "FirstName_x0028_currentowner_x00": "first_name",
+    "DueDate": "transaction_timestamp",
+    "AgreementForm": "agreement_signed",
+    "OriginatingSite": "origin_site",
+    "CurrentSite": "current_site",
+    "PurchasePrice": "asset_cost",
+    "Color": "color",
+    "Housing": "housing_cell",
+    "Unit": "housing_unit",
+    "IncidentInvolvement": null,
+    "PurchaseDate": null,
+    "OrderNumber": null,
+    "Program": null,
+    "ConditionNotes": null,
+    "OMNI": null
+  },
+  "Logging": {
+    "logLevel": "INFO"
   }
+}
   

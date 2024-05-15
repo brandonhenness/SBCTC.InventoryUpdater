@@ -15,10 +15,10 @@
     Email: brandon.henness@doc1.wa.gov
 
 .VERSION
-    2024051400
+    v2024051500
 
 .DATE
-    2024-05-14
+    2024-05-15
 
 .NOTES
     Requires PowerShell 7.2 or later.
@@ -30,9 +30,6 @@
 .COPYRIGHT
     Copyright (c) 2024 Brandon Henness
 #>
-
-# Define the global log level variable
-$global:logLevel = "INFO"  # Set to "DEBUG" for debugging, "INFO" for production
 
 function Write-LogMessage {
     param (
@@ -93,14 +90,46 @@ function Write-ScriptInfo {
     Write-LogMessage "Script: `tSBCTC.InventoryUpdater.ps1"
     Write-LogMessage "Author: `tBrandon Henness"
     Write-LogMessage "Contact:`tbrandon.henness@doc1.wa.gov"
-    Write-LogMessage "Version:`t2024051400"
-    Write-LogMessage "Date:   `t2024-05-14"
+    Write-LogMessage "Version:`tv2024051500"
+    Write-LogMessage "Date:   `t2024-05-15"
     Write-LogMessage "Licensed under GNU General Public License v3.0"
     Write-LogMessage "Copyright (c) 2024 Brandon Henness"
 }
 
-# Path to the log file
-$logFilePath = "$PSScriptRoot\SBCTC.InventoryUpdater.log"
+# Get the directory of the script
+$scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Path
+
+$configPath = Join-Path -Path $scriptDirectory -ChildPath 'config.json'
+$logFilePath = Join-Path -Path $scriptDirectory -ChildPath 'SBCTC.InventoryUpdater.log'
+
+$configData = Get-Content -Path $configPath | ConvertFrom-Json
+
+# Set the global log level variable from the config file, default to "INFO" if not found
+if ($null -ne $config.Logging -and $null -ne $config.Logging.logLevel) {
+    $global:logLevel = $configData.Logging.logLevel
+} else {
+    $global:logLevel = "INFO"
+}
+
+Write-LogMessage "Configuration loaded successfully." "INFO"
+Write-LogMessage "Configuration Data: $($configData | ConvertTo-Json -Depth 10)" "DEBUG"
+
+# Verify FieldMappings
+if ($null -eq $configData.FieldMappings) {
+    Write-LogMessage "FieldMappings not found in configuration." "ERROR"
+    exit
+} else {
+    Write-LogMessage "FieldMappings found in configuration." "INFO"
+}
+
+# Attempt to access FieldMappings.Keys explicitly
+$fieldMappingsKeys = $configData.FieldMappings | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
+Write-LogMessage "FieldMappings Keys: $($fieldMappingsKeys -join ', ')" "DEBUG"
+
+# Iterate through FieldMappings keys
+foreach ($key in $fieldMappingsKeys) {
+    Write-LogMessage "Key: $key, Value: $($configData.FieldMappings.$key)" "DEBUG"
+}
 
 # Check if the log file exists, if not, create it
 if (-Not (Test-Path $logFilePath)) {
@@ -132,31 +161,6 @@ try {
     } catch {
         Write-ErrorLog "Failed to load the Windows Forms assembly." $_
         exit
-    }
-
-    # Get the directory of the script
-    $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Path
-    $configPath = Join-Path -Path $scriptDirectory -ChildPath 'config.json'
-    $configData = Get-Content -Path $configPath | ConvertFrom-Json
-
-    Write-LogMessage "Configuration loaded successfully." "INFO"
-    Write-LogMessage "Configuration Data: $($configData | ConvertTo-Json -Depth 10)" "DEBUG"
-
-    # Verify FieldMappings
-    if ($null -eq $configData.FieldMappings) {
-        Write-LogMessage "FieldMappings not found in configuration." "ERROR"
-        exit
-    } else {
-        Write-LogMessage "FieldMappings found in configuration." "INFO"
-    }
-
-    # Attempt to access FieldMappings.Keys explicitly
-    $fieldMappingsKeys = $configData.FieldMappings | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
-    Write-LogMessage "FieldMappings Keys: $($fieldMappingsKeys -join ', ')" "DEBUG"
-
-    # Iterate through FieldMappings keys
-    foreach ($key in $fieldMappingsKeys) {
-        Write-LogMessage "Key: $key, Value: $($configData.FieldMappings.$key)" "DEBUG"
     }
 
     # Create and configure the OpenFileDialog
