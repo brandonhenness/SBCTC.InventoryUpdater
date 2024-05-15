@@ -31,48 +31,6 @@ This PowerShell script is designed for the State Board for Community and Technic
     - Unzip the downloaded file.
     - Move `SBCTC.InventoryUpdater.ps1` to the desired location.
 
-## Configuration
-
-The first time the script is run, it will automatically generate a config.json file in the same directory as the script. You can modify this configuration file to suit your needs.
-
-Example `config.json`:
-```json
-{
-    "SharePoint": {
-      "siteURL": "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT",
-      "listName": "Corrections Education Student Laptop Inventory"
-    },
-    "FieldMappings": {
-        "Title": "asset_id",
-        "AssetType": "asset_type",
-        "Manufacturer": "manufacturer",
-        "Model": "model",
-        "SerialNumber": "serial_number",
-        "Status": "status",
-        "DOCID_x0028_currentowner_x0029_": "doc_number",
-        "LastName_x0028_currentowner_x002": "last_name",
-        "FirstName_x0028_currentowner_x00": "first_name",
-        "DueDate": "transaction_timestamp",
-        "AgreementForm": "agreement_signed",
-        "OriginatingSite": "origin_site",
-        "CurrentSite": "current_site",
-        "PurchasePrice": "asset_cost",
-        "Color": "color",
-        "Housing": "housing_cell",
-        "Unit": "housing_unit",
-        "IncidentInvolvement": null,
-        "PurchaseDate": null,
-        "OrderNumber": null,
-        "Program": null,
-        "ConditionNotes": null,
-        "OMNI": null
-    },
-    "Logging": {
-        "logLevel": "INFO"
-    }
-}
-```
-
 ## Usage
 
 1. Place the `SBCTC.InventoryUpdater.ps1` script in the desired directory.
@@ -98,6 +56,58 @@ If you have the right-click menu option installed for PowerShell 7:
 1. Right-click the `SBCTC.InventoryUpdater.ps1` script.
 2. Select **Run with PowerShell 7**.
 3. A file dialog will prompt you to select the CSV file containing the inventory data.
+
+## Configuration
+
+### Field Mappings
+
+The `config.json` file contains a `FieldMappings` section that maps CSV columns to the corresponding SharePoint fields. The key is the SharePoint field name, and the value is the CSV column name.
+
+Example `FieldMappings` section:
+```json
+{
+    "FieldMappings": {
+        "Title": "asset_id",
+        "AssetType": "asset_type",
+        "Manufacturer": "manufacturer",
+        "Model": "model",
+        "SerialNumber": "serial_number",
+        "Status": "status",
+        "DOCID_x0028_currentowner_x0029_": "doc_number",
+        "LastName_x0028_currentowner_x002": "last_name",
+        "FirstName_x0028_currentowner_x00": "first_name",
+        "DueDate": "transaction_timestamp",
+        "AgreementForm": "agreement_signed",
+        "OriginatingSite": "origin_site",
+        "CurrentSite": "current_site",
+        "PurchasePrice": "asset_cost",
+        "Color": "color",
+        "Housing": "housing_cell",
+        "Unit": "housing_unit",
+        "IncidentInvolvement": null,
+        "PurchaseDate": null,
+        "OrderNumber": null,
+        "Program": null,
+        "ConditionNotes": null,
+        "OMNI": null
+    }
+}
+```
+
+### Editing Field Mappings
+
+To edit the field mappings:
+
+1. Open the `config.json` file in a text editor.
+2. Locate the `FieldMappings` section.
+3. Modify the values to match the column names in your CSV file. Ensure that the keys (SharePoint field names) remain unchanged.
+4. Save the changes to the `config.json` file.
+
+Example:
+If your CSV file has a column named `device_type` that should map to the SharePoint field `AssetType`, you would update the `AssetType` mapping as follows:
+```json
+"AssetType": "device_type"
+```
 
 ## Logging
 
