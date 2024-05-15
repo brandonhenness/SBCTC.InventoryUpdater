@@ -1,6 +1,6 @@
 # SBCTC Inventory Updater
 
-This PowerShell script updates SharePoint list items based on inventory data from a CSV file. It maps CSV columns to SharePoint fields using a configuration file and handles date conversions, updating only the fields that have changed.
+This PowerShell script is designed for the State Board for Community and Technical Colleges (SBCTC) to update SharePoint list items based on inventory data from a CSV file. The script uses a configuration file to map CSV columns to SharePoint fields, handle date conversions, and update only the fields that have changed. Detailed logging is provided to track the script's execution and any errors encountered.
 
 ## Features
 
