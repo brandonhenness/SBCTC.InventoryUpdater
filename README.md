@@ -82,9 +82,9 @@ Example `config.json`:
 1. Place the `SBCTC.InventoryUpdater.ps1` script and `config.json` file in the same directory.
 2. You have two options to run the script:
 
-### Option 1: Using PowerShell
+### Option 1: Using PowerShell 7
 
-1. Open PowerShell and navigate to the script directory.
+1. Open PowerShell 7 and navigate to the script directory.
 2. Run the script:
     ```powershell
     ./SBCTC.InventoryUpdater.ps1
