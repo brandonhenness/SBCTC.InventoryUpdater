@@ -96,11 +96,64 @@ function Write-ScriptInfo {
     Write-LogMessage "Copyright (c) 2024 Brandon Henness"
 }
 
+function New-DefaultConfig {
+    $defaultConfig = @{
+        SharePoint = @{
+            siteURL = "https://sbctcedu.sharepoint.com/sites/CorrectionsEducationIT"
+            listName = "Corrections Education Student Laptop Inventory"
+        }
+        Permissions = @(
+            @{ site = "SCCC"; email = "user1@example.com" }
+            @{ site = "SCCC"; email = "user2@example.com" }
+            @{ site = "SCCC"; email = "user3@example.com" }
+            @{ site = "SCCC"; email = "user4@example.com" }
+            @{ site = "SCCC"; email = "user5@example.com" }
+        )
+        FieldMappings = @{
+            Title = "asset_id"
+            AssetType = "asset_type"
+            Manufacturer = "manufacturer"
+            Model = "model"
+            SerialNumber = "serial_number"
+            Status = "status"
+            DOCID_x0028_currentowner_x0029_ = "doc_number"
+            LastName_x0028_currentowner_x002 = "last_name"
+            FirstName_x0028_currentowner_x00 = "first_name"
+            DueDate = "transaction_timestamp"
+            AgreementForm = "agreement_signed"
+            OriginatingSite = "origin_site"
+            CurrentSite = "current_site"
+            PurchasePrice = "asset_cost"
+            Color = "color"
+            Housing = "housing_cell"
+            Unit = "housing_unit"
+            IncidentInvolvement = $null
+            PurchaseDate = $null
+            OrderNumber = $null
+            Program = $null
+            ConditionNotes = $null
+            OMNI = $null
+        }
+        Logging = @{
+            logLevel = "INFO"
+        }
+    }
+
+    $defaultConfig | ConvertTo-Json -Depth 10 | Set-Content -Path $configPath
+    Write-LogMessage "Default configuration file created at $configPath" "INFO"
+}
+
 # Get the directory of the script
 $scriptDirectory = Split-Path -Parent -Path $MyInvocation.MyCommand.Path
 
 $configPath = Join-Path -Path $scriptDirectory -ChildPath 'config.json'
 $logFilePath = Join-Path -Path $scriptDirectory -ChildPath 'SBCTC.InventoryUpdater.log'
+
+# Check if the config file exists, if not, create and populate a default one
+if (-Not (Test-Path $configPath)) {
+    Write-LogMessage "Configuration file not found. Creating a default configuration file." "WARNING"
+    New-DefaultConfig
+}
 
 $configData = Get-Content -Path $configPath | ConvertFrom-Json
 
@@ -116,7 +169,6 @@ Clear-Content -Path $logFilePath
 Write-ScriptInfo
 
 Write-LogMessage "Configuration loaded successfully." "INFO"
-
 
 # Set the global log level variable from the config file, default to "INFO" if not found
 if ($null -ne $configData.Logging -and $null -ne $configData.Logging.logLevel) {
