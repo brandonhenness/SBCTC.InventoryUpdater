@@ -120,7 +120,7 @@ The script logs its execution details to `SBCTC.InventoryUpdater.log` in the sam
 
 ## License
 
-Licensed under GNU General Public License v3.0.
+SBCTC Inventory Updater is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ## Author
 
